@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Calculator</title>
+    
+    <style>
+        body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.calculator {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    width: 550px;
+    background-color: #fff;
+    overflow: hidden;
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.display {
+    background-color: #222;
+    color: #fff;
+    text-align: right;
+    padding: 30px;
+    font-size: 3em;
+    transition: background-color 0.5s;
+}
+
+.display.blink {
+    background-color: #444;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.btn {
+    border: 1px solid #ccc;
+    padding: 30px;
+    font-size: 2em;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.btn:hover {
+    background-color: #e0e0e0;
+}
+
+.btn:active {
+    transform: scale(0.95);
+}
+
+.operator {
+    background-color: #f9a825;
+}
+
+.operator:hover {
+    background-color: #f57f17;
+}
+
+.clear {
+    grid-column: span 4;
+    background-color: #d32f2f;
+    color: #fff;
+}
+
+.clear:hover {
+    background-color: #c62828;
+}
+
+.clear:active {
+    transform: scale(0.95);
+}
+
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div id="display" class="display">0</div>
+        <div class="buttons">
+            <button class="btn" data-value="7">7</button>
+            <button class="btn" data-value="8">8</button>
+            <button class="btn" data-value="9">9</button>
+            <button class="btn operator" data-value="/">/</button>
+            <button class="btn" data-value="4">4</button>
+            <button class="btn" data-value="5">5</button>
+            <button class="btn" data-value="6">6</button>
+            <button class="btn operator" data-value="*">*</button>
+            <button class="btn" data-value="1">1</button>
+            <button class="btn" data-value="2">2</button>
+            <button class="btn" data-value="3">3</button>
+            <button class="btn operator" data-value="-">-</button>
+            <button class="btn" data-value="0">0</button>
+            <button class="btn" data-value=".">.</button>
+            <button class="btn operator" data-value="+">+</button>
+            <button class="btn operator" data-value="=">=</button>
+            <button class="btn clear" data-value="C">C</button>
+        </div>
+    </div>
+    <script>document.addEventListener("DOMContentLoaded", () => {
+        const display = document.getElementById('display');
+        const buttons = Array.from(document.getElementsByClassName('btn'));
+        
+        buttons.map(button => {
+            button.addEventListener('click', (e) => {
+                const value = e.target.getAttribute('data-value');
+    
+                if (value === 'C') {
+                    display.innerText = '0';
+                } else if (value === '=') {
+                    try {
+                        display.innerText = eval(display.innerText);
+                        blinkDisplay();
+                    } catch {
+                        display.innerText = 'Error';
+                    }
+                } else {
+                    if (display.innerText === '0') {
+                        display.innerText = value;
+                    } else {
+                        display.innerText += value;
+                    }
+                }
+            });
+        });
+    
+        function blinkDisplay() {
+            display.classList.add('blink');
+            setTimeout(() => {
+                display.classList.remove('blink');
+            }, 150);
+        }
+    });
+    </script>
+</body>
+</html>
